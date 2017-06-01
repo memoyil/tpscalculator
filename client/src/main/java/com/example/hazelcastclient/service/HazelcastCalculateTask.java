@@ -15,13 +15,11 @@ public class HazelcastCalculateTask implements Runnable {
 
     @Override
     public void run() {
-        Long lastAmountOfRequest = 0L;
         while (true) {
             System.out.println("==========================");
-            Long tps = amountRequest.get() - lastAmountOfRequest;
-            System.out.println("TPS : " + tps);
-            lastAmountOfRequest = amountRequest.get();
+            System.out.println("TPS : " + amountRequest.get());
             System.out.println("==========================");
+            amountRequest.set(0);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
