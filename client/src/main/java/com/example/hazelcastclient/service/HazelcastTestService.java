@@ -7,8 +7,6 @@ import com.hazelcast.core.HazelcastInstance;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -17,15 +15,14 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class HazelcastTestService {
 
-    @Value("${threadSize:30}")
+    @Value("${threadSize:200}")
     private int threadSize;
 
     public void test() {
         AtomicLong amountRequest = new AtomicLong(0);
-        ExecutorService executor = Executors.newFixedThreadPool(threadSize);
         HazelcastInstance hazelcastClient = getHazelcastClient();
         for (int i = 0; i < threadSize; i++) {
-            executor.submit(new HazelcastGetTestTask(hazelcastClient, amountRequest));
+            new Thread(new HazelcastGetTestTask(hazelcastClient, amountRequest)).start();
         }
         new Thread(new HazelcastCalculateTask(amountRequest)).start();
     }
