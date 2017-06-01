@@ -1,4 +1,5 @@
 # tpscalculator
+Requirements : Maven and Java should be installed on your computer.
 
 First you should run sh/bat file inside the server package. It will create hazelcast cluster with 2 nodes.
 
